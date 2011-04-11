@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-Name: com.buglabs.bug.ircbot.behavior.easyshucks
+Bundle-Activator: com.buglabs.bug.ircbot.behavior.easyshucks.EasyShucks
+Bundle-SymbolicName: com.buglabs.bug.ircbot.behavior.easyshucks
+Bundle-Version: 1.0.0
+Bundle-Vendor: aturley
+Bug-Bundle-Type: Application
+BUG-API-Version: 1.4.4
+Import-Package: com.buglabs.bug.ircbot.pub,
+ org.osgi.framework,
+ com.buglabs.bug.ircbot.behavior.easylistening
+

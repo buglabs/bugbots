@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-Name: com.buglabs.bug.ircbot.behavior.easylistening
+Bundle-SymbolicName: com.buglabs.bug.ircbot.behavior.easylistening
+Bundle-Version: 1.0.0
+Bundle-Vendor: aturley
+BUG-API-Version: 1.4.4
+Export-Package: com.buglabs.bug.ircbot.behavior.easylistening
+Import-Package: com.buglabs.bug.ircbot.pub,
+ org.osgi.framework
