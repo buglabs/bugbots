@@ -12,6 +12,7 @@ public abstract class EasyListener implements BundleActivator {
 			consumer = new EasyListenerConsumer();
 		}
 		context.registerService(IChannelMessageConsumer.class.getName(), consumer, null);
+		registration();
 	}
 
 	public void stop(BundleContext context) throws Exception {
