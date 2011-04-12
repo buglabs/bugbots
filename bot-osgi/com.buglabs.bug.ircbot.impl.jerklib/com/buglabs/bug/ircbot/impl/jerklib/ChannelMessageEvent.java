@@ -1,4 +1,4 @@
-package com.buglabs.bug.ircbot.impl;
+package com.buglabs.bug.ircbot.impl.jerklib;
 
 import com.buglabs.bug.ircbot.pub.IChannelMessageEvent;
 import jerklib.events.ChannelMsgEvent;
