@@ -11,7 +11,7 @@ public class GreetingsMessageConsumer implements IChannelMessageConsumer {
 		String botName = e.getBotName();
 		System.out.println("Saw message: " + message);
 		String outgoingMessage = "";
-		if (message.startsWith(botName + ":") || message.startsWith(botName + ",")) {
+		if (message.compareTo(botName + ": hello") == 0) {
 			outgoingMessage = "" + e.getNick() + ": hello";
 			System.out.println("I would say: '" + outgoingMessage + "'");
 		}
