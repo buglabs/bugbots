@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: com.buglabs.bug.ircbot.impl.irclib
+Bundle-Activator: com.buglabs.bug.ircbot.impl.irclib.Activator
+Bundle-SymbolicName: com.buglabs.bug.ircbot.impl.irclib
+Bundle-Version: 1.0.0
+Bundle-Vendor: aturley
+Bug-Bundle-Type: Application
+BUG-API-Version: 2.0.2
+Import-Package: com.buglabs.bug.ircbot.pub,
+ org.osgi.framework,
+ org.osgi.util.tracker
+Bundle-Classpath: .,/libs/irclib.jar
