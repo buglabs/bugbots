@@ -4,7 +4,7 @@ import com.buglabs.bug.ircbot.behavior.easylistening.EasyListener
 
 class EasyShucks < EasyListener
   def registration()
-    on "^attaboy" do |e|
+    onChannel "^attaboy" do |e|
       return "thanks, i think."
     end
     returns void

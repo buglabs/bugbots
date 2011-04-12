@@ -19,7 +19,7 @@ public abstract class EasyListener implements BundleActivator {
 		consumer = null;
 	}
 	
-	public void on(String regex, IEasyListenerAction action) {
+	public void onChannel(String regex, IEasyListenerAction action) {
 		if (consumer != null) {
 			consumer.add(regex, action);
 		}

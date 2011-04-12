@@ -6,7 +6,7 @@ import com.buglabs.bug.ircbot.pub.IChannelMessageEvent;
 
 public class Activator extends EasyListener {
 	public void registration() {
-		on("^goodbye", new IEasyListenerAction() {
+		onChannel("^goodbye", new IEasyListenerAction() {
 			public String invoke(IChannelMessageEvent cme) {
 				return "so long";
 			}
