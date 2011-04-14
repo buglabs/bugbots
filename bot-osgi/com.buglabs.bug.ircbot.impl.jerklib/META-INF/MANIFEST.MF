@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bundle-Name: com.buglabs.bug.ircbot.impl
+Bundle-Name: com.buglabs.bug.ircbot.impl.jerklib
 Bundle-Activator: com.buglabs.bug.ircbot.impl.jerklib.Activator
 Bundle-SymbolicName: com.buglabs.bug.ircbot.impl.jerklib
 Bundle-Version: 1.0.0

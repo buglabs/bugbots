@@ -1,7 +1,7 @@
 package com.buglabs.bug.ircbot.impl.jerklib;
 
 import com.buglabs.bug.ircbot.pub.IChannelMessageEvent;
-import jerklib.events.ChannelMsgEvent;
+import jerklib.events.MessageEvent;
 
 public class ChannelMessageEvent implements IChannelMessageEvent {
 	private String channel;
@@ -11,7 +11,7 @@ public class ChannelMessageEvent implements IChannelMessageEvent {
 	private String userName;
 	private String botName;
 	
-	public ChannelMessageEvent(ChannelMsgEvent cme, String botName) {
+	public ChannelMessageEvent(MessageEvent cme, String botName) {
 		channel = cme.getChannel().getName();
 		hostName = cme.getHostName();
 		message = cme.getMessage();
