@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: com.buglabs.bug.ircbot.behavior.mpd
+Bundle-Activator: com.buglabs.bug.ircbot.behavior.mpd.Activator
+Bundle-SymbolicName: com.buglabs.bug.ircbot.behavior.mpd
+Bundle-Version: 1.0.0
+Bug-Bundle-Type: Application
+BUG-API-Version: 2.0.2
+Import-Package: org.osgi.framework,
+ org.osgi.service.log,
+ com.buglabs.util,
+ com.buglabs.bug.ircbot.pub
+Bundle-ClassPath: ., /libs/javampd-4.0.jar
