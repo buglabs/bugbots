@@ -2,8 +2,8 @@ package com.buglabs.bug.ircbot.behavior.mpd;
 
 import java.net.UnknownHostException;
 
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+import java.text.NumberFormat;
+import java.text.DecimalFormat;
 
 import org.bff.javampd.MPD;
 import org.bff.javampd.objects.MPDSong;
@@ -63,11 +63,12 @@ public class Activator implements BundleActivator {
 						
 						if (command.compareTo("track length") == 0) {
 							try {
+								NumberFormat format = new DecimalFormat("#00");
 								MPDSong song = mpd.getMPDPlayer().getCurrentSong();
 								int hours = (song.getLength() / 3600);
 								int minutes = (song.getLength() / 60) % 60;
 								int seconds = song.getLength() % 60;
-								return ("" + hours + ":" + minutes + ":" + seconds);
+								return ("" + format.format(hours) + ":" + format.format(minutes) + ":" + format.format(seconds));
 							} catch (Exception ex) {
 								logger.log(LogService.LOG_DEBUG, "problem getting current song");
 								ex.printStackTrace();
