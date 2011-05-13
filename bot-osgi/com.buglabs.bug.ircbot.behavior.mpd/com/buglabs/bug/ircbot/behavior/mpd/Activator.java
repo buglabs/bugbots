@@ -28,7 +28,7 @@ public class Activator implements BundleActivator {
 	private LogService logger = null;
 
 	public MPD getMPD() throws UnknownHostException, MPDConnectionException {
-		if (mpd.isConnected()) {
+		if (mpd != null && mpd.isConnected()) {
 			return mpd;
 		}
 		mpd = new MPD("bugmpd.local", 6600);
@@ -43,92 +43,88 @@ public class Activator implements BundleActivator {
 		logger = LogServiceUtil.getLogService(context);
 		
 		
-		if (mpd != null) {
-			logger.log(LogService.LOG_DEBUG, "connected to mpd");
-			context.registerService(IChannelMessageConsumer.class.getName(), new IChannelMessageConsumer() {
-				public String onChannelMessage(IChannelMessageEvent e) {
-					logger.log(LogService.LOG_DEBUG, "got message:" + e.getMessage());
-					if (e.getMessage().startsWith(e.getBotName() + ": mpd ")) {
-						String command = e.getMessage().substring((e.getBotName() + ": mpd ").length());
-						
-						if (command.compareTo("song") == 0) {
-							try {
-								MPDSong song = mpd.getMPDPlayer().getCurrentSong();
-								return ("Title: " + song.getTitle() + ", Artist: " + song.getArtist() + ", File: " + song.getFile());
-							} catch (Exception ex) {
-								logger.log(LogService.LOG_DEBUG, "problem getting current song");
-								ex.printStackTrace();
-							}
-						}
-						
-						if (command.compareTo("track length") == 0) {
-							try {
-								NumberFormat format = new DecimalFormat("#00");
-								MPDSong song = mpd.getMPDPlayer().getCurrentSong();
-								int hours = (song.getLength() / 3600);
-								int minutes = (song.getLength() / 60) % 60;
-								int seconds = song.getLength() % 60;
-								return ("" + format.format(hours) + ":" + format.format(minutes) + ":" + format.format(seconds));
-							} catch (Exception ex) {
-								logger.log(LogService.LOG_DEBUG, "problem getting current song");
-								ex.printStackTrace();
-							}
-						}
-						
-						if (command.compareTo("play") == 0) {
-							try {
-								mpd.getMPDPlayer().play();
-								return "playing";
-							} catch (Exception ex) {
-								logger.log(LogService.LOG_DEBUG, "problem getting current song");
-								ex.printStackTrace();
-							}
-						}
-						
-						if (command.compareTo("pause") == 0) {
-							try {
-								mpd.getMPDPlayer().pause();
-								return "pausing";
-							} catch (Exception ex) {
-								logger.log(LogService.LOG_DEBUG, "problem getting current song");
-								ex.printStackTrace();
-							}
-						}
-						
-						if (command.compareTo("skip") == 0) {
-							try {
-								mpd.getMPDPlayer().playNext();
-								return "skipping";
-							} catch (Exception ex) {
-								logger.log(LogService.LOG_DEBUG, "problem skipping song");
-								ex.printStackTrace();
-							}
-						}
-						
-						if (command.compareTo("update") == 0) {
-							try {
-								new Thread() {
-									public void run() {
-										try {
-											mpd.getMPDAdmin().updateDatabase();
-										} catch (Exception e) {
-											logger.log(LogService.LOG_DEBUG, "error while updating");
-										}
-									}
-								}.start();
-								return "updating";
-							} catch (Exception ex) {
-								logger.log(LogService.LOG_DEBUG, "problem updating dabase");
-								ex.printStackTrace();
-							}
+		logger.log(LogService.LOG_DEBUG, "connected to mpd");
+		context.registerService(IChannelMessageConsumer.class.getName(), new IChannelMessageConsumer() {
+			public String onChannelMessage(IChannelMessageEvent e) {
+				logger.log(LogService.LOG_DEBUG, "got message:" + e.getMessage());
+				if (e.getMessage().startsWith(e.getBotName() + ": mpd ")) {
+					String command = e.getMessage().substring((e.getBotName() + ": mpd ").length());
+					
+					if (command.compareTo("song") == 0) {
+						try {
+							MPDSong song = getMPD().getMPDPlayer().getCurrentSong();
+							return ("Title: " + song.getTitle() + ", Artist: " + song.getArtist() + ", File: " + song.getFile());
+						} catch (Exception ex) {
+							logger.log(LogService.LOG_DEBUG, "problem getting current song");
+							ex.printStackTrace();
 						}
 					}
-					return null;
+					
+					if (command.compareTo("track length") == 0) {
+						try {
+							NumberFormat format = new DecimalFormat("#00");
+							MPDSong song = getMPD().getMPDPlayer().getCurrentSong();
+							int hours = (song.getLength() / 3600);
+							int minutes = (song.getLength() / 60) % 60;
+							int seconds = song.getLength() % 60;
+							return ("" + format.format(hours) + ":" + format.format(minutes) + ":" + format.format(seconds));
+						} catch (Exception ex) {
+							logger.log(LogService.LOG_DEBUG, "problem getting current song");
+							ex.printStackTrace();
+						}
+					}
+					
+					if (command.compareTo("play") == 0) {
+						try {
+							getMPD().getMPDPlayer().play();
+							return "playing";
+						} catch (Exception ex) {
+							logger.log(LogService.LOG_DEBUG, "problem getting current song");
+							ex.printStackTrace();
+						}
+					}
+					
+					if (command.compareTo("pause") == 0) {
+						try {
+							getMPD().getMPDPlayer().pause();
+							return "pausing";
+						} catch (Exception ex) {
+							logger.log(LogService.LOG_DEBUG, "problem getting current song");
+							ex.printStackTrace();
+						}
+					}
+					
+					if (command.compareTo("skip") == 0) {
+						try {
+							getMPD().getMPDPlayer().playNext();
+							return "skipping";
+						} catch (Exception ex) {
+							logger.log(LogService.LOG_DEBUG, "problem skipping song");
+							ex.printStackTrace();
+						}
+					}
+					
+					if (command.compareTo("update") == 0) {
+						try {
+							new Thread() {
+								public void run() {
+									try {
+										getMPD().getMPDAdmin().updateDatabase();
+									} catch (Exception e) {
+										logger.log(LogService.LOG_DEBUG, "error while updating");
+									}
+								}
+							}.start();
+							return "updating";
+						} catch (Exception ex) {
+							logger.log(LogService.LOG_DEBUG, "problem updating dabase");
+							ex.printStackTrace();
+						}
+					}
 				}
-			}, null);
-		} else {
-			logger.log(LogService.LOG_DEBUG, "problem getting mpd");
-		}
+				return null;
+			}
+		}, null);
 	}
 
     /*
@@ -136,7 +132,9 @@ public class Activator implements BundleActivator {
 	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext context) throws Exception {
-		mpd.close();
+		if (mpd != null) {
+			mpd.close();
+		}
 	}
 	
 	
