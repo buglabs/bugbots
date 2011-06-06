@@ -1,5 +1,8 @@
 package com.buglabs.bug.ircbot.impl.jerklib;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,13 +26,19 @@ import jerklib.listeners.IRCEventListener;
 public class Activator implements BundleActivator, IRCEventListener, IBotControl {
 
 	private ConnectionManager manager;
-	private static final String botName = "bot-bundle";
+	private static final String botName = "bot-";
 	private static final String serverName = "bugcamp.net";
-	// private static final String serverName = "irc.freenode.net";
+	//private static final String serverName = "irc.freenode.net";
 	private static final String channelName = "#buglabs";
+	private String hostname = "bundle";
 	private ServiceTracker channelMessageConsumerTracker;
 	public void start(BundleContext context) throws Exception {
-		manager = new ConnectionManager(new Profile("OSGi Robot", botName, botName + "1", botName + "2"));
+		File hostfile = new File("/etc/hostname");
+		BufferedReader in = new BufferedReader(new FileReader(hostfile));
+		hostname = in.readLine();
+		in.close();
+		System.out.println("[jerklib] Using hostname "+hostname);
+		manager = new ConnectionManager(new Profile("OSGi Robot", botName+hostname, botName+hostname + "1", botName+hostname + "2"));
 		final Activator me = this;
 		new Thread() {
 			public void run() {
@@ -60,7 +69,7 @@ public class Activator implements BundleActivator, IRCEventListener, IBotControl
 			
 			if (channelMessageConsumers != null) {
 				MessageEvent me = (MessageEvent) e;
-				IChannelMessageEvent cme = new ChannelMessageEvent(me, botName);
+				IChannelMessageEvent cme = new ChannelMessageEvent(me, botName+hostname);
 				for (Object cmc : channelMessageConsumers) {
 					String message = ((IChannelMessageConsumer) cmc).onChannelMessage(cme);
 					if (message != null) {
