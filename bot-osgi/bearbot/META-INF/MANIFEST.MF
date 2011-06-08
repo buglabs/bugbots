@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: bearbot
+Bundle-Activator: bearbot.Activator
+Bundle-SymbolicName: bearbot
+Bundle-Version: 1.0.0
+Bundle-Vendor: theterg
+Bug-Bundle-Type: Application
+BUG-API-Version: 2.0.2
+Import-Package: com.buglabs.bug.ircbot.pub,
+ humana_bearcontroller,
+ org.osgi.framework
+Require-Bundle: Humana_Bearcontroller
